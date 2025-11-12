@@ -4,7 +4,8 @@ FROM node:18-alpine AS build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package*.json ./
-RUN npm ci --silent
+RUN npm install -g npm@latest
+RUN if [ -f package-lock.json ]; then npm ci --silent; else npm install --silent; fi
 COPY . .
 RUN npm run build
 
